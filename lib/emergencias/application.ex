@@ -1,21 +1,16 @@
 defmodule Emergencias.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
-  @moduledoc false
-
   use Application
-
   @impl true
   def start(_type, _args) do
     children = [
-      Emergencias.Servidores.RecursosServer
-      # Starts a worker by calling: Emergencias.Worker.start_link(arg)
-      # {Emergencias.Worker, arg}
+      Emergencias.Servidores.RecursosServer,
+      Emergencias.Servidores.UsuariosServer,
+      Emergencias.Servidores.ZonasServer,
+      Emergencias.Servidores.NecesidadesServer,
+      Emergencias.Servidores.PersonasServer,
+      Emergencias.Servidores.MascotasServer,
+      Emergencias.Servidores.AlberguesServer
     ]
-
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Emergencias.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, strategy: :one_for_one, name: Emergencias.Supervisor)
   end
 end
